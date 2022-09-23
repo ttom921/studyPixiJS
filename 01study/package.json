@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@pixi/filter-blur": "^6.5.4",
+    "@pixi/particle-emitter": "^5.0.7",
     "pixi-filters": "^4.2.0",
     "pixi.js": "^6.5.4"
   }
