@@ -1,4 +1,4 @@
-import { Application, Container, Graphics, Point, Sprite, TextStyle, Text } from "pixi.js";
+import { Application, Container, Graphics, Point, Sprite, TextStyle, Text, BitmapText, BitmapFont } from "pixi.js";
 
 const app = new Application({
     view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
@@ -9,16 +9,25 @@ const app = new Application({
     height: 480,
 });
 
-const styly: TextStyle = new TextStyle({
-    align: "center",
-    fill: "#754c24",
-    fontSize: 42
-});
-const texty: Text = new Text('私に気づいて先輩！', styly); // Text supports unicode!
-texty.x = 100;
-texty.text = "This is expensive to change, please do not abuse";
+// If you need to know, this is the expensive part. This creates the font atlas
+BitmapFont.from("comic 32", {
+    fill: "#ffffff", // White, will be colored later
+    fontFamily: "Comic Sans MS",
+    fontSize: 32
+})
 
-app.stage.addChild(texty);
+// Remember, this font only has letters and numbers. No commas or any other symbol.
+const bitmapTexty: BitmapText = new BitmapText("I love baking, my family, and my friends",
+    {
+        fontName: "comic 32",
+        fontSize: 32, // Making it too big or too small will look bad
+        tint: 0xFF0000 // Here we make it red.
+    });
+
+bitmapTexty.text = "This is cheap";
+bitmapTexty.text = "Change it as much as you want";
+
+app.stage.addChild(bitmapTexty);
 
 
 
