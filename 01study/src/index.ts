@@ -1,4 +1,4 @@
-import { Application, Container, Graphics, Point, Sprite } from "pixi.js";
+import { Application, Container, Graphics, Point, Sprite, TextStyle, Text } from "pixi.js";
 
 const app = new Application({
     view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
@@ -9,30 +9,16 @@ const app = new Application({
     height: 480,
 });
 
-const graphy: Graphics = new Graphics();
+const styly: TextStyle = new TextStyle({
+    align: "center",
+    fill: "#754c24",
+    fontSize: 42
+});
+const texty: Text = new Text('私に気づいて先輩！', styly); // Text supports unicode!
+texty.x = 100;
+texty.text = "This is expensive to change, please do not abuse";
 
-// we give instructions in order. begin fill, line style, draw circle, end filling
-graphy.beginFill(0xFF00FF);
-graphy.lineStyle(10, 0x00FF00);
-graphy.drawCircle(0, 0, 25); // See how I set the drawing at 0,0? NOT AT 100, 100!
-graphy.endFill();
-
-app.stage.addChild(graphy);
-
-// Here we set it at 100,100
-graphy.x = 100;
-graphy.y = 100;
-
-const gRect: Graphics = new Graphics();
-gRect.beginFill(0xFF00FF);
-gRect.lineStyle(10, 0x00FF00);
-gRect.drawRect(0, 0, 25, 25); // See how I set the drawing at 0,0? NOT AT 100, 100!
-gRect.endFill();
-app.stage.addChild(gRect);
-
-
-gRect.x = 130;
-gRect.y = 130;
+app.stage.addChild(texty);
 
 
 
