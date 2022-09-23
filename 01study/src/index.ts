@@ -1,3 +1,4 @@
+import { BlurFilter } from "@pixi/filter-blur";
 import { Application, Container, Graphics, Point, Sprite, TextStyle, Text, BitmapText, BitmapFont } from "pixi.js";
 
 const app = new Application({
@@ -9,27 +10,20 @@ const app = new Application({
     height: 480,
 });
 
-// If you need to know, this is the expensive part. This creates the font atlas
-BitmapFont.from("comic 32", {
-    fill: "#ffffff", // White, will be colored later
-    fontFamily: "Comic Sans MS",
-    fontSize: 32
-})
+const clampy: Sprite = Sprite.from("clampy.png");
 
-// Remember, this font only has letters and numbers. No commas or any other symbol.
-const bitmapTexty: BitmapText = new BitmapText("I love baking, my family, and my friends",
-    {
-        fontName: "comic 32",
-        fontSize: 32, // Making it too big or too small will look bad
-        tint: 0xFF0000 // Here we make it red.
-    });
+clampy.anchor.set(0.5);
 
-bitmapTexty.text = "This is cheap";
-bitmapTexty.text = "Change it as much as you want";
+// setting it to "the middle of the screen
+clampy.x = app.screen.width / 2;
+clampy.y = app.screen.height / 2;
 
-app.stage.addChild(bitmapTexty);
+app.stage.addChild(clampy);
 
+// Make your filter
+const myBlurFilter = new BlurFilter();
 
-
+// Add it to the `.filters` array of any DisplayObject
+clampy.filters = [myBlurFilter];
 
 

@@ -21,6 +21,8 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
+    "@pixi/filter-blur": "^6.5.4",
+    "pixi-filters": "^4.2.0",
     "pixi.js": "^6.5.4"
   }
 }
