@@ -1,4 +1,6 @@
+
 import { Container, Sprite, Ticker } from "pixi.js";
+import { Group, Tween } from "tweedle.js";
 
 
 export class Scene extends Container {
@@ -6,7 +8,7 @@ export class Scene extends Container {
     private readonly screenHeight: number;
     // we promoted clampy to a member of the class
     private clampy: Sprite;
-    private clampyVelocity: number = 5;
+
     constructor(screenWidth: number, screenHeight: number) {
         super();//Mandatoyr! This calls the superclass constructor.
         //see how members of the class need `this.`?
@@ -23,15 +25,20 @@ export class Scene extends Container {
 
         //see this `this` thingy there? That is another way of binding the context!
         Ticker.shared.add(this.update, this);
-        //If you want,you cna do ite the bind way
-        //Tick.shared.add(this.update.bind(this));
+
+        // See how these chains all togegher
+        new Tween(this.clampy.scale).to({ x: 0.5, y: 0.5 }, 1000).repeat(Infinity).yoyo(true).start();
+
+        // This is th sam code ,but unchained
+        // const tweeny= new Tween(this.clampy.scale);
+        // tweeny.to({x:0.5,y:0.5},1000);
+        // tweeny.repeat(Infinity);
+        // tweeny.yoyo(true);
+        // tweeny.start();
 
     }
     private update(deltaTime: number): void {
-        this.clampy.x = this.clampy.x + this.clampyVelocity * deltaTime;
-        if (this.clampy.x > this.screenWidth) {
-            // Woah there clampy, com back inside the screen!
-            this.clampy.x = 0;
-        }
+        // you need to update a group for the tweens to do something!
+        Group.shared.update();
     }
 }
