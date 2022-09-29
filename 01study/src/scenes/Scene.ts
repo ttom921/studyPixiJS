@@ -1,7 +1,5 @@
 
-import { Container, Sprite, Ticker } from "pixi.js";
-import { Group, Tween } from "tweedle.js";
-
+import { Container, InteractionEvent, Sprite } from "pixi.js";
 
 export class Scene extends Container {
     private readonly screenWidth: number;
@@ -19,26 +17,33 @@ export class Scene extends Container {
         this.clampy = Sprite.from("clampy.png");
 
         this.clampy.anchor.set(0.5);
-        this.clampy.x = 0;//we start it at 0
+        this.clampy.x = this.screenWidth / 2;
         this.clampy.y = this.screenHeight / 2;
         this.addChild(this.clampy);
 
-        //see this `this` thingy there? That is another way of binding the context!
-        Ticker.shared.add(this.update, this);
+        //events that begin with "pointer" are touch + mouse
+        this.clampy.on("pointertap", this.onClicky, this);
 
-        // See how these chains all togegher
-        new Tween(this.clampy.scale).to({ x: 0.5, y: 0.5 }, 1000).repeat(Infinity).yoyo(true).start();
+        //This only works with a mouse
+        //this.clampy.on("click",this.onClicky,this);
 
-        // This is th sam code ,but unchained
-        // const tweeny= new Tween(this.clampy.scale);
-        // tweeny.to({x:0.5,y:0.5},1000);
-        // tweeny.repeat(Infinity);
-        // tweeny.yoyo(true);
-        // tweeny.start();
+        //This only work with touch
+        this.clampy.on("tap", this.onClicky, this);
+
+        //Super import or the object will never receive mouse events!
+        this.clampy.interactive = true;
 
     }
-    private update(deltaTime: number): void {
-        // you need to update a group for the tweens to do something!
-        Group.shared.update();
+    private onClicky(e: InteractionEvent): void {
+        console.log("You interacted with Clampy!");
+        console.log("The data of your interaction is super interesting", e);
+
+        //Global position of the interaction
+        //e.data.global
+
+        // local (indide clampy) position of the interaction
+        //e.data.getLocalPosition(this.clampy);
+        //Rember Clampy hsa the 0,0 in its center because we set the anchor to 0.5!
     }
 }
+
