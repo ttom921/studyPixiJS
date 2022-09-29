@@ -21,29 +21,25 @@ export class Scene extends Container {
         this.clampy.y = this.screenHeight / 2;
         this.addChild(this.clampy);
 
-        //events that begin with "pointer" are touch + mouse
-        this.clampy.on("pointertap", this.onClicky, this);
-
-        //This only works with a mouse
-        //this.clampy.on("click",this.onClicky,this);
-
-        //This only work with touch
-        this.clampy.on("tap", this.onClicky, this);
-
-        //Super import or the object will never receive mouse events!
-        this.clampy.interactive = true;
+        // No pixi here, All HTML DOM baby!
+        document.addEventListener("keydown", this.onKeyDown.bind(this));
+        document.addEventListener("keyup", this.onKeyUp.bind(this));
 
     }
-    private onClicky(e: InteractionEvent): void {
-        console.log("You interacted with Clampy!");
-        console.log("The data of your interaction is super interesting", e);
+    private onKeyDown(e: KeyboardEvent): void {
+        console.log("KeyDown event fired!", e);
 
-        //Global position of the interaction
-        //e.data.global
+        // Most likely, you will switch on this:
+        // e.code // if you care about the physical location of the key
+        // e.key // if you care about the character that the key represents
+    }
 
-        // local (indide clampy) position of the interaction
-        //e.data.getLocalPosition(this.clampy);
-        //Rember Clampy hsa the 0,0 in its center because we set the anchor to 0.5!
+    private onKeyUp(e: KeyboardEvent): void {
+        console.log("KeyUp event fired!", e);
+
+        // Most likely, you will switch on this:
+        // e.code // if you care about the physical location of the key
+        // e.key // if you care about the character that the key represents
     }
 }
 
