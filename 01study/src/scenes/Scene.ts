@@ -21,25 +21,22 @@ export class Scene extends Container {
         this.clampy.y = this.screenHeight / 2;
         this.addChild(this.clampy);
 
-        // No pixi here, All HTML DOM baby!
-        document.addEventListener("keydown", this.onKeyDown.bind(this));
-        document.addEventListener("keyup", this.onKeyUp.bind(this));
+        this.clampy.on("clamp", onClampyClamp, this);
 
-    }
-    private onKeyDown(e: KeyboardEvent): void {
-        console.log("KeyDown event fired!", e);
+        this.clampy.once("clamp", onClampyClampOnce, this);
 
-        // Most likely, you will switch on this:
-        // e.code // if you care about the physical location of the key
-        // e.key // if you care about the character that the key represents
+        // clampy.off("clamp", onClampyClamp); // This will remove the event!
+        // somewhere, when the time is right... Fire the clamp!
+        this.clampy.emit("clamp");
     }
 
-    private onKeyUp(e: KeyboardEvent): void {
-        console.log("KeyUp event fired!", e);
+}
+// If you come from c++ this will mess you up: Functions can be declared after you used them.
+function onClampyClamp() {
+    console.log("clampy did clamp!");
+}
 
-        // Most likely, you will switch on this:
-        // e.code // if you care about the physical location of the key
-        // e.key // if you care about the character that the key represents
-    }
+function onClampyClampOnce() {
+    console.log("this will only be called once and then removed!");
 }
 
